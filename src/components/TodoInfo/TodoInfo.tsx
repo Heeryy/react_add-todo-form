@@ -1,7 +1,7 @@
 import { UserInfo } from '../UserInfo';
 import usersFromServer from '../../api/users';
 
-type infoProps = {
+type InfoProps = {
   todo: {
     id: number;
     title: string;
@@ -10,9 +10,8 @@ type infoProps = {
   };
 };
 
-export const TodoInfo = ({ todo }: infoProps) => {
-
-  const user = usersFromServer.find(user => user.id === todo.userId);
+export const TodoInfo = ({ todo }: InfoProps) => {
+  const user = usersFromServer.find(userf => userf.id === todo.userId);
 
   if (!user) {
     throw new Error(`User with ID ${todo.userId} not found`);

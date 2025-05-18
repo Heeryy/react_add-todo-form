@@ -7,17 +7,15 @@ type Todo = {
   userId: number;
 };
 
-type todoProps = {
+type TodoProps = {
   todos: Todo[];
 };
 
-export const TodoList = ({ todos }: todoProps) => {
+export const TodoList = ({ todos }: TodoProps) => {
   return (
     <section className="TodoList">
       {todos.map(todo => (
-        <TodoInfo
-          todo={todo}
-        />
+        <TodoInfo key={todo.id} todo={todo} />
       ))}
     </section>
   );

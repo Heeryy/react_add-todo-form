@@ -5,10 +5,19 @@ import { useState } from 'react';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+};
+
 export const App = () => {
   const [title, setTitle] = useState<string>('');
   const [userFormID, setUserFormID] = useState<number>(0);
   const [errors, setErrors] = useState<string[]>([]);
+
+  const [todos, setTodos] = useState<Todo[]>(todosFromServer)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,6 +36,7 @@ export const App = () => {
 
     if (newErrors.length > 0) {
       setErrors(newErrors);
+
       return;
     }
 
@@ -39,7 +49,7 @@ export const App = () => {
       userId: userFormID,
     };
 
-    todosFromServer.push(newTodo);
+    setTodos(prev => [...prev, newTodo]);
 
     setTitle('');
     setUserFormID(0);
@@ -57,7 +67,7 @@ export const App = () => {
             id="title"
             type="text"
             data-cy="titleInput"
-            placeholder='Type a title'
+            placeholder="Type a title"
             value={title}
             onChange={e => {
               setTitle(e.target.value);
@@ -80,6 +90,7 @@ export const App = () => {
             value={userFormID}
             onChange={e => {
               const value = Number(e.target.value);
+
               setUserFormID(value);
 
               if (errors.includes('user')) {
@@ -106,7 +117,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todosFromServer} />
+      <TodoList todos={todos} />
     </div>
   );
 };
